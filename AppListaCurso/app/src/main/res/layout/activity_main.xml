@@ -7,9 +7,6 @@
     tools:context=".view.MainActivity">
 
 
-
-
-
     <TextView
         android:id="@+id/textViewTitulo"
         android:layout_width="wrap_content"
