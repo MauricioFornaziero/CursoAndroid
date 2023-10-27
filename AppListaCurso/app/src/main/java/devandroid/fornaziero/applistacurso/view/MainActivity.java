@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String NOME_PREFERENCES = "pref_listavip";
 
     Pessoa pessoa;
+
+    Pessoa pessoaPreferences;
     PessoaController controller;
 
     String dadosPessoa;
@@ -55,10 +57,16 @@ public class MainActivity extends AppCompatActivity {
 
 
         pessoa = new Pessoa();
-        pessoa.setPrimeiroNome("Mauricio");
-        pessoa.setSobreNome("Fornaziero");
-        pessoa.setCursoDesejado("Java");
-        pessoa.setTelefoneContato("11-995866750");
+
+        pessoa.setPrimeiroNome(preferences.getString("primeiroNome",""));
+        pessoa.setCursoDesejado(preferences.getString("curso",""));
+        pessoa.setSobreNome(preferences.getString("sobrenome",""));
+        pessoa.setTelefoneContato(preferences.getString("contato",""));
+
+//        pessoa.setPrimeiroNome("Mauricio");
+//        pessoa.setSobreNome("Fornaziero");
+//        pessoa.setCursoDesejado("Java");
+//        pessoa.setTelefoneContato("11-995866750");
 
         dadosPessoa = "Primeiro Nome: ";
         dadosPessoa += pessoa.getPrimeiroNome();
@@ -71,6 +79,13 @@ public class MainActivity extends AppCompatActivity {
         editTextTextSobrenome.setText(pessoa.getSobreNome());
         editTextTextCurso.setText(pessoa.getCursoDesejado());
         editTextTextTelefone.setText(pessoa.getTelefoneContato());
+
+        pessoaPreferences = new Pessoa();
+        pessoaPreferences.setPrimeiroNome("PRef - Mauricio");
+        pessoaPreferences.setSobreNome("PRef - Fornaziero");
+        pessoaPreferences.setCursoDesejado("PRef - Java");
+        pessoaPreferences.setTelefoneContato("PRef - 11-995866750");
+
 
 
         buttonLimpar.setOnClickListener(new View.OnClickListener() {
@@ -99,10 +114,12 @@ public class MainActivity extends AppCompatActivity {
                 pessoa.setPrimeiroNome(editTextTextNome.getText().toString());
                 Toast.makeText(MainActivity.this,"Salvo! "+pessoa.toString(),Toast.LENGTH_LONG).show();
 
-                listavip.putString("primeiroNome",pessoa.getPrimeiroNome());
-                listavip.putString("sobrenome",pessoa.getSobreNome());
-                listavip.putString("curso",pessoa.getCursoDesejado());
-                listavip.putString("contato",pessoa.getTelefoneContato());
+                pessoaPreferences.setPrimeiroNome(pessoa.getPrimeiroNome());
+
+                listavip.putString("primeiroNome",pessoaPreferences.getPrimeiroNome());
+                listavip.putString("sobrenome",pessoaPreferences.getSobreNome());
+                listavip.putString("curso",pessoaPreferences.getCursoDesejado());
+                listavip.putString("contato",pessoaPreferences.getTelefoneContato());
                 listavip.apply();
 
 
