@@ -15,13 +15,7 @@ import devandroid.fornaziero.applistacurso.controller.PessoaController;
 import devandroid.fornaziero.applistacurso.model.Pessoa;
 
 public class MainActivity extends AppCompatActivity {
-
-
-    SharedPreferences preferences;
-    public static final String NOME_PREFERENCES = "pref_listavip";
-
     Pessoa pessoa;
-
     Pessoa pessoaPreferences;
     PessoaController controller;
 
@@ -39,10 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        controller = new PessoaController();
-
-        preferences = getSharedPreferences(NOME_PREFERENCES,0);
-        SharedPreferences.Editor listavip = preferences.edit();
+        controller = new PessoaController(MainActivity.this);
 
         editTextTextNome = findViewById(R.id.editTextTextNome);
         editTextTextSobrenome = findViewById(R.id.editTextTextSobrenome);
@@ -57,11 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         pessoa = new Pessoa();
+        controller.buscar(pessoa);
 
-        pessoa.setPrimeiroNome(preferences.getString("primeiroNome",""));
-        pessoa.setCursoDesejado(preferences.getString("curso",""));
-        pessoa.setSobreNome(preferences.getString("sobrenome",""));
-        pessoa.setTelefoneContato(preferences.getString("contato",""));
+//        pessoa.setPrimeiroNome(preferences.getString("primeiroNome",""));
+//        pessoa.setCursoDesejado(preferences.getString("curso",""));
+//        pessoa.setSobreNome(preferences.getString("sobrenome",""));
+//        pessoa.setTelefoneContato(preferences.getString("contato",""));
 
 //        pessoa.setPrimeiroNome("Mauricio");
 //        pessoa.setSobreNome("Fornaziero");
@@ -96,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
                 editTextTextCurso.setText("");
                 editTextTextTelefone.setText("");
 
+                controller.limpar();
+
+//
+
             }
         });
 
@@ -113,16 +109,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 pessoa.setPrimeiroNome(editTextTextNome.getText().toString());
                 Toast.makeText(MainActivity.this,"Salvo! "+pessoa.toString(),Toast.LENGTH_LONG).show();
-
-                pessoaPreferences.setPrimeiroNome(pessoa.getPrimeiroNome());
-
-                listavip.putString("primeiroNome",pessoaPreferences.getPrimeiroNome());
-                listavip.putString("sobrenome",pessoaPreferences.getSobreNome());
-                listavip.putString("curso",pessoaPreferences.getCursoDesejado());
-                listavip.putString("contato",pessoaPreferences.getTelefoneContato());
-                listavip.apply();
-
-
+                pessoa = new Pessoa();
+                pessoa.setPrimeiroNome(editTextTextNome.getText().toString());
+                pessoa.setSobreNome(editTextTextSobrenome.getText().toString());
+                pessoa.setCursoDesejado(editTextTextCurso.getText().toString());
+                pessoa.setTelefoneContato(editTextTextTelefone.getText().toString());
                 controller.salvar(pessoa);
             }
         });
